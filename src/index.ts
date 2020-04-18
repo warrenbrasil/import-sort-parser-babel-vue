@@ -1,19 +1,19 @@
-import {extname} from "path";
-
+// tslint:disable-next-line:no-implicit-dependencies
+import { IImport, IParserOptions, NamedMember } from "import-sort-parser";
+import { ParserOptions, parse as babelParserParse } from "@babel/parser";
 import {
   loadOptions as babelLoadOptions,
   loadPartialConfig as babelLoadPartialOptions,
   parse as babelParse,
 } from "@babel/core";
-import {ParserOptions, parse as babelParserParse} from "@babel/parser";
-import traverse from "@babel/traverse";
 import {
   isImportDefaultSpecifier,
   isImportNamespaceSpecifier,
   isImportSpecifier,
 } from "@babel/types";
-// tslint:disable-next-line:no-implicit-dependencies
-import {IImport, IParserOptions, NamedMember} from "import-sort-parser";
+
+import { extname } from "path";
+import traverse from "@babel/traverse";
 
 // TODO: Mocha currently doesn't pick up the declaration in index.d.ts
 // eslint-disable-next-line
@@ -25,7 +25,7 @@ const COMMON_PARSER_PLUGINS = [
   "jsx",
   "doExpressions",
   "objectRestSpread",
-  ["decorators", {decoratorsBeforeExport: true}],
+  ["decorators", { decoratorsBeforeExport: true }],
   "classProperties",
   "classPrivateProperties",
   "classPrivateMethods",
@@ -41,7 +41,7 @@ const COMMON_PARSER_PLUGINS = [
   "bigInt",
   "optionalCatchBinding",
   "throwExpressions",
-  ["pipelineOperator", {proposal: "minimal"}],
+  ["pipelineOperator", { proposal: "minimal" }],
   "nullishCoalescingOperator",
 ];
 
@@ -73,17 +73,19 @@ const TYPESCRIPT_PARSER_OPTIONS = {
 
 export function parseImports(
   code: string,
-  options: IParserOptions = {},
+  options: IParserOptions = {}
 ): IImport[] {
-  const babelPartialOptions = babelLoadPartialOptions({filename: options.file});
+  const babelPartialOptions = babelLoadPartialOptions({
+    filename: options.file,
+  });
 
   let parsed;
 
   if (babelPartialOptions.hasFilesystemConfig()) {
     // We always prefer .babelrc (or similar) if one was found
-    parsed = babelParse(code, babelLoadOptions({filename: options.file}));
+    parsed = babelParse(code, babelLoadOptions({ filename: options.file }));
   } else {
-    const {file} = options;
+    const { file } = options;
 
     const isTypeScript = file && TYPESCRIPT_EXTENSIONS.includes(extname(file));
 
@@ -93,13 +95,13 @@ export function parseImports(
 
     parsed = babelParserParse(
       code,
-      (parserOptions as unknown) as ParserOptions,
+      (parserOptions as unknown) as ParserOptions
     );
   }
 
   const imports: IImport[] = [];
 
-  const ignore = (parsed.comments || []).some(comment => {
+  const ignore = (parsed.comments || []).some((comment) => {
     return comment.value.includes("import-sort-ignore");
   });
 
@@ -109,7 +111,7 @@ export function parseImports(
 
   traverse(parsed, {
     ImportDeclaration(path) {
-      const {node} = path;
+      const { node } = path;
 
       const importStart = node.start;
       const importEnd = node.end;
@@ -138,7 +140,7 @@ export function parseImports(
           }
 
           previous = current;
-          ({start} = comments[previous]);
+          ({ start } = comments[previous]);
           current -= 1;
         }
       }
@@ -155,7 +157,7 @@ export function parseImports(
           }
 
           previous = current;
-          ({end} = comments[previous]);
+          ({ end } = comments[previous]);
           current += 1;
         }
       }
@@ -174,9 +176,9 @@ export function parseImports(
       };
 
       if (node.specifiers) {
-        node.specifiers.forEach(specifier => {
+        node.specifiers.forEach((specifier) => {
           if (isImportSpecifier(specifier)) {
-            const type = specifier.importKind === "type" ? {type: true} : {};
+            const type = specifier.importKind === "type" ? { type: true } : {};
 
             imported.namedMembers.push({
               name: specifier.imported.name,
@@ -201,14 +203,14 @@ export function parseImports(
 export function formatImport(
   code: string,
   imported: IImport,
-  eol = "\n",
+  eol = "\n"
 ): string {
   const importStart = imported.importStart || imported.start;
   const importEnd = imported.importEnd || imported.end;
 
   const importCode = code.substring(importStart, importEnd);
 
-  const {namedMembers} = imported;
+  const { namedMembers } = imported;
 
   if (namedMembers.length === 0) {
     return code.substring(imported.start, imported.end);
@@ -216,7 +218,7 @@ export function formatImport(
 
   const newImportCode = importCode.replace(
     /\{[\s\S]*\}/g,
-    namedMembersString => {
+    (namedMembersString) => {
       const useMultipleLines = namedMembersString.indexOf(eol) !== -1;
 
       let prefix: string | undefined;
@@ -240,9 +242,9 @@ export function formatImport(
         useSpaces,
         userTrailingComma,
         prefix,
-        eol,
+        eol
       );
-    },
+    }
   );
 
   return (
@@ -258,14 +260,14 @@ function formatNamedMembers(
   useSpaces: boolean,
   useTrailingComma: boolean,
   prefix: string | undefined,
-  eol = "\n",
+  eol = "\n"
 ): string {
   if (useMultipleLines) {
     return (
       "{" +
       eol +
       namedMembers
-        .map(({name, alias, type}, index) => {
+        .map(({ name, alias, type }, index) => {
           const lastImport = index === namedMembers.length - 1;
           const comma = !useTrailingComma && lastImport ? "" : ",";
           const typeModifier = type ? "type " : "";
@@ -288,7 +290,7 @@ function formatNamedMembers(
     "{" +
     space +
     namedMembers
-      .map(({name, alias, type}) => {
+      .map(({ name, alias, type }) => {
         const typeModifier = type ? "type " : "";
 
         if (name === alias) {
