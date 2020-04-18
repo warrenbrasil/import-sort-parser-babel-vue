@@ -1,7 +1,7 @@
 {
-  "name": "import-sort-parser-babel-vue",
-  "version": "1.0.0",
-  "description": "An import-sort parser based on the JavaScript parser Babylon.",
+  "name": "import-sort-parser",
+  "version": "6.0.0",
+  "description": "Interfaces for import-sort parsers.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -19,12 +19,9 @@
     "lib"
   ],
   "devDependencies": {
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-typescript": "^7.1.0",
-    "@types/babylon": "^6.16.3",
     "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.5.2",
+    "@types/mocha": "^5.2.3",
+    "@types/node": "^10.3.5",
     "@typescript-eslint/eslint-plugin": "^1.2.0",
     "chai": "^4.0.2",
     "eslint": "^5.13.0",
@@ -33,17 +30,8 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4",
-    "import-sort-parser": "^6.0.0",
     "mocha": "^5.2.0",
-    "prettier": "^2.0.4",
     "ts-node": "^8.0.2",
     "typescript": "^3.2.4"
-  },
-  "dependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/parser": "^7.0.0-beta.54",
-    "@babel/traverse": "^7.0.0-beta.54",
-    "@babel/types": "^7.0.0-beta.54",
-    "find-line-column": "^0.5.2"
   }
 }
