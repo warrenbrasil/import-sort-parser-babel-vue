@@ -14,6 +14,7 @@ import {
 
 import { extname } from "path";
 import traverse from "@babel/traverse";
+import * as vueParser from "vue-parser";
 
 // TODO: Mocha currently doesn't pick up the declaration in index.d.ts
 // eslint-disable-next-line
@@ -75,6 +76,11 @@ export function parseImports(
   code: string,
   options: IParserOptions = {}
 ): IImport[] {
+  if (code.includes("<script") && code.includes("</script>"))
+    code = vueParser.parse(code, "script", {
+      lang: ["js", "jsx", "ts", "tsx"],
+    });
+
   const babelPartialOptions = babelLoadPartialOptions({
     filename: options.file,
   });
@@ -87,7 +93,9 @@ export function parseImports(
   } else {
     const { file } = options;
 
-    const isTypeScript = file && TYPESCRIPT_EXTENSIONS.includes(extname(file));
+    const isTypeScript =
+      (file && TYPESCRIPT_EXTENSIONS.includes(extname(file))) ||
+      code.includes('lang="ts"');
 
     const parserOptions = isTypeScript
       ? TYPESCRIPT_PARSER_OPTIONS
