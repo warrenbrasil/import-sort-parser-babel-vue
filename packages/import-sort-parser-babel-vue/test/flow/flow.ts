@@ -1,11 +1,11 @@
 import "mocha";
 
-import {assert} from "chai";
-import {IImport} from "import-sort-parser";
+import { assert } from "chai";
+import { IImport } from "import-sort-parser";
 
-import {formatImport, parseImports} from "../../lib";
+import { formatImport, parseImports } from "../../lib";
 
-const parseFlowImports = code => {
+const parseFlowImports = (code) => {
   // No file name is passed to the parser here
   return parseImports(code);
 };
@@ -15,7 +15,7 @@ describe("parseImports (Flow, without @babel/preset-flow)", () => {
     const imports = parseFlowImports(
       `
 import type p from 'q';
-`.trim(),
+`.trim()
     );
 
     assert.equal(imports[0].type, "import-type");
@@ -29,7 +29,7 @@ import type p from 'q';
     const imports = parseFlowImports(
       `
 import {type a} from "x";
-`.trim(),
+`.trim()
     );
 
     assert.equal(imports[0].namedMembers[0].type, true);
