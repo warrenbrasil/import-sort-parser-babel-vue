@@ -1,16 +1,15 @@
 import "mocha";
 
 import { assert } from "chai";
-import { IImport } from "import-sort-parser";
 
-import { formatImport, parseImports } from "../../lib";
+import { parseImports } from "../../lib";
 
 const parseFlowImports = (code) => {
   // Pass (fake) file name to the parser so it can read .babelrc
   return parseImports(code, { file: __dirname + "/flow.js" });
 };
 
-describe("parseImports (Flow, with @babel/preset-flow)", () => {
+describe("parseImports (Vue, Flow, with @babel/preset-flow)", () => {
   it("should return default type import", () => {
     const imports = parseFlowImports(
       `
@@ -18,7 +17,7 @@ describe("parseImports (Flow, with @babel/preset-flow)", () => {
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import type p from 'q';
 </script>
 
@@ -29,7 +28,7 @@ import type p from 'q';
     );
 
     assert.equal(imports[0].type, "import-type");
-    assert.equal(imports[0].start, 75);
+    assert.equal(imports[0].start, 65);
     assert.equal(imports[0].end, imports[0].end);
     assert.equal(imports[0].moduleName, "q");
     assert.equal(imports[0].defaultMember, "p");
@@ -42,7 +41,7 @@ import type p from 'q';
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import {type a} from "x";
 </script>
 

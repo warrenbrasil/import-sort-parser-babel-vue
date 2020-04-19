@@ -1,9 +1,8 @@
 import "mocha";
 
 import { assert } from "chai";
-import { IImport } from "import-sort-parser";
 
-import { formatImport, parseImports } from "../../lib";
+import { parseImports } from "../../lib";
 
 const parseFlowImports = (code) => {
   // No file name is passed to the parser here

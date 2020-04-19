@@ -9,7 +9,7 @@ const parseTypeScriptImports = (code) => {
   return parseImports(code, { file: __dirname + "/typescript.ts" });
 };
 
-describe("parseImports (TypeScript, with @babel/preset-typescript)", () => {
+describe("parseImports (Vue, TypeScript, with @babel/preset-typescript)", () => {
   it("should return imports", () => {
     const imports = parseTypeScriptImports(
       `

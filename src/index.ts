@@ -81,8 +81,10 @@ export function parseImports(
     .getNode(code, "script")
     ?.attrs.some(({ value }) => value === "ts");
 
-  if (scriptNode) code = vueParser.parse(code, "script");
-  codeStart = scriptNode?.__location?.startTag?.endOffset;
+  if (scriptNode) {
+    code = vueParser.parse(code, "script");
+    codeStart = scriptNode.__location?.startTag?.endOffset;
+  }
 
   const babelPartialOptions = babelLoadPartialOptions({
     filename: options.file,

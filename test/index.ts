@@ -246,7 +246,7 @@ describe("parseImports vue", () => {
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 /* import-sort-ignore */
 import "a";
 import b from "b";
@@ -271,7 +271,7 @@ import l, * as m from "o";
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import "a";
 import b from "b";
 import { c } from "c";
@@ -300,7 +300,7 @@ import l, * as m from "o";
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 // import-sort-ignore
 import "a";
 import b from "b";
@@ -325,7 +325,7 @@ import l, * as m from "o";
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import "a";
 import b from "b";
 import { c } from "c";
@@ -352,7 +352,7 @@ import l, * as m from "o";
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import "a";
 import b from "b";
 import {c} from "c";
@@ -375,8 +375,8 @@ import l, * as m from "o";
     });
 
     // import "a";
-    assert.equal(imports[0].start, 0 + 75);
-    assert.equal(imports[0].end, 11 + 75);
+    assert.equal(imports[0].start, 0 + 65);
+    assert.equal(imports[0].end, 11 + 65);
     assert.equal(imports[0].moduleName, "a");
 
     // import b from "b";
@@ -426,7 +426,7 @@ import l, * as m from "o";
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 // Above
 import "a"; // Besides
 // Below
@@ -438,8 +438,8 @@ import "a"; // Besides
 `.trim()
     );
 
-    assert.equal(imports[0].start, 0 + 75);
-    assert.equal(imports[0].end, 31 + 75);
+    assert.equal(imports[0].start, 0 + 65);
+    assert.equal(imports[0].end, 31 + 65);
   });
 
   it("should include all comments", () => {
@@ -449,7 +449,7 @@ import "a"; // Besides
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 // Above
 // Above
 import "a"; // Besides
@@ -463,8 +463,8 @@ import "a"; // Besides
 `.trim()
     );
 
-    assert.equal(imports[0].start, 0 + 75);
-    assert.equal(imports[0].end, 40 + 75);
+    assert.equal(imports[0].start, 0 + 65);
+    assert.equal(imports[0].end, 40 + 65);
   });
 
   it("should only include nearby comments", () => {
@@ -474,7 +474,7 @@ import "a"; // Besides
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 // Above
 
 import "a"; // Besides
@@ -488,8 +488,8 @@ import "a"; // Besides
 `.trim()
     );
 
-    assert.equal(imports[0].start, 10 + 75);
-    assert.equal(imports[0].end, 10 + 22 + 75);
+    assert.equal(imports[0].start, 10 + 65);
+    assert.equal(imports[0].end, 10 + 22 + 65);
   });
 
   it("should include all nearby but exclude far away comments", () => {
@@ -499,7 +499,7 @@ import "a"; // Besides
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 // Above
 
 // Above
@@ -515,8 +515,8 @@ import "a"; // Besides
 `.trim()
     );
 
-    assert.equal(imports[0].start, 10 + 75);
-    assert.equal(imports[0].end, 10 + 31 + 75);
+    assert.equal(imports[0].start, 10 + 65);
+    assert.equal(imports[0].end, 10 + 31 + 65);
   });
 
   it("should not treat trailing comment on previous import as leading comment", () => {
@@ -526,7 +526,7 @@ import "a"; // Besides
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import "a"; // Besides
 import "b";
 </script>
@@ -537,11 +537,11 @@ import "b";
 `.trim()
     );
 
-    assert.equal(imports[0].start, 0 + 75);
-    assert.equal(imports[0].end, 22 + 75);
+    assert.equal(imports[0].start, 0 + 65);
+    assert.equal(imports[0].end, 22 + 65);
 
-    assert.equal(imports[1].start, 23 + 75);
-    assert.equal(imports[1].end, 1 + 22 + 11 + 75);
+    assert.equal(imports[1].start, 23 + 65);
+    assert.equal(imports[1].end, 1 + 22 + 11 + 65);
   });
 
   it("should include type information for named type imports", () => {
@@ -551,7 +551,7 @@ import "b";
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import {type a} from "x";
 </script>
 

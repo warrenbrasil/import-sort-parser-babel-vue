@@ -9,7 +9,7 @@ const parseFlowImports = (code) => {
   return parseImports(code);
 };
 
-describe("parseImports (Flow, without @babel/preset-flow)", () => {
+describe("parseImports (Vue, Flow, without @babel/preset-flow)", () => {
   it("should return default type import", () => {
     const imports = parseFlowImports(
       `
@@ -17,7 +17,7 @@ describe("parseImports (Flow, without @babel/preset-flow)", () => {
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import type p from 'q';
 </script>
 
@@ -28,7 +28,7 @@ import type p from 'q';
     );
 
     assert.equal(imports[0].type, "import-type");
-    assert.equal(imports[0].start, 75);
+    assert.equal(imports[0].start, 65);
     assert.equal(imports[0].end, imports[0].end);
     assert.equal(imports[0].moduleName, "q");
     assert.equal(imports[0].defaultMember, "p");
@@ -41,7 +41,7 @@ import type p from 'q';
   <div class="container"></div>
 </template>
 
-<script lang="ts">
+<script>
 import {type a} from "x";
 </script>
 
