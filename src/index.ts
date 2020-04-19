@@ -142,10 +142,7 @@ export function parseImports(
             break;
           }
 
-          if (
-            findLineColumn(code, comments[current].start).col !== 0 &&
-            !scriptNode
-          ) {
+          if (findLineColumn(code, comments[current].start).col !== 0) {
             break;
           }
 
