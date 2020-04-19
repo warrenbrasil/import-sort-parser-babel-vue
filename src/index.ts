@@ -70,6 +70,7 @@ const TYPESCRIPT_PARSER_OPTIONS = {
 
   plugins: TYPESCRIPT_PARSER_PLUGINS,
 };
+let codeStart;
 
 export function parseImports(
   code: string,
@@ -81,6 +82,7 @@ export function parseImports(
     ?.attrs.some(({ value }) => value === "ts");
 
   if (scriptNode) code = vueParser.parse(code, "script");
+  codeStart = scriptNode?.__location?.startTag?.endOffset;
 
   const babelPartialOptions = babelLoadPartialOptions({
     filename: options.file,
@@ -208,6 +210,19 @@ export function parseImports(
 }
 
 export function formatImport(
+  code: string,
+  imported: IImport,
+  eol = "\n"
+): string {
+  const importStart = imported.importStart || imported.start;
+
+  if (codeStart + 1 === importStart)
+    return "\b" + formatImportCore(code, imported, eol);
+
+  return formatImportCore(code, imported, eol);
+}
+
+export function formatImportCore(
   code: string,
   imported: IImport,
   eol = "\n"
