@@ -9,8 +9,7 @@
     "build": "tsc -b .",
     "build:watch": "tsc -b . -w",
     "test": "mocha --require ts-node/register --recursive \"test/**/*.ts\"",
-    "test:watch": "mocha -w --require ts-node/register --recursive \"test/**/*.ts\"",
-    "lint": "eslint --ext ts src"
+    "test:watch": "mocha -w --require ts-node/register --recursive \"test/**/*.ts\""
   },
   "author": {
     "name": "Calvin Liang",
@@ -21,28 +20,21 @@
     "type": "git",
     "url": "git+https://github.com/CoolCyberBrain/import-sort-parser-babel-vue.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "lib"
   ],
   "devDependencies": {
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
-    "@types/babylon": "^6.16.3",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.0",
-    "@typescript-eslint/eslint-plugin": "^2.28.0",
     "chai": "^4.0.2",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.0",
-    "eslint-plugin-react": "^7.12.4",
     "mocha": "^7.1.1",
     "prettier": "^2.0.4",
     "ts-node": "^8.0.2",
+    "tslib": "^1.11.1",
     "typescript": "^3.2.4"
   },
   "dependencies": {
