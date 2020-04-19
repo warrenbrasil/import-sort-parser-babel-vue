@@ -21,4 +21,4 @@ Vue parser for import-sort. Works with typescript or flow in Vue Single File Com
 }
 ```
 
-Personally I prefer `"style": "module"`
+Personally I prefer `"style": "module"`, you'll need to install `import-sort-style-module`.
