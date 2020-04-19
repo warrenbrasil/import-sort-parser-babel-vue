@@ -1,6 +1,6 @@
 {
   "name": "import-sort-parser-babel-vue",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An import-sort parser for Vue based on import-sort-parser-babylon",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
