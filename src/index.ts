@@ -94,7 +94,24 @@ export function parseImports(
 
   if (babelPartialOptions.hasFilesystemConfig()) {
     // We always prefer .babelrc (or similar) if one was found
-    parsed = babelParse(code, babelLoadOptions({ filename: options.file }));
+
+    try {
+      parsed = babelParse(code, babelLoadOptions({ filename: options.file }));
+    } catch (e) {
+      const { file } = options;
+
+      const isTypeScript =
+        (file && TYPESCRIPT_EXTENSIONS.includes(extname(file))) || isVueTs;
+
+      const parserOptions = isTypeScript
+        ? TYPESCRIPT_PARSER_OPTIONS
+        : FLOW_PARSER_OPTIONS;
+
+      parsed = babelParserParse(
+        code,
+        (parserOptions as unknown) as ParserOptions
+      );
+    }
   } else {
     const { file } = options;
 
