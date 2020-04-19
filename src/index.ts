@@ -79,7 +79,7 @@ export function parseImports(
   const scriptNode = vueParser.getNode(code, "script");
   const isVueTs = vueParser
     .getNode(code, "script")
-    ?.attrs.some(({ value }) => value === "ts");
+    ?.attrs.some(({ name, value }) => name === "lang" && value === "ts");
 
   if (scriptNode) {
     code = vueParser.parse(code, "script");
