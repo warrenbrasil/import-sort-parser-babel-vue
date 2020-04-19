@@ -16,7 +16,6 @@ import { extname } from "path";
 import traverse from "@babel/traverse";
 import * as vueParser from "vue-parser";
 
-// TODO: Mocha currently doesn't pick up the declaration in index.d.ts
 // eslint-disable-next-line
 const findLineColumn = require("find-line-column");
 
@@ -77,7 +76,9 @@ export function parseImports(
   options: IParserOptions = {}
 ): IImport[] {
   const scriptNode = vueParser.getNode(code, "script");
-  const isVueTs = vueParser.getNode(code, "script")?.attrs["lang"] === "ts";
+  const isVueTs = vueParser
+    .getNode(code, "script")
+    ?.attrs.some(({ value }) => value === "ts");
 
   if (scriptNode) code = vueParser.parse(code, "script");
 
@@ -141,8 +142,10 @@ export function parseImports(
             break;
           }
 
-          // TODO: Improve this so that comments with leading whitespace are allowed
-          if (findLineColumn(code, comments[current].start).col !== 0) {
+          if (
+            findLineColumn(code, comments[current].start).col !== 0 &&
+            !scriptNode
+          ) {
             break;
           }
 
