@@ -22,3 +22,28 @@ Vue parser for import-sort. Works with typescript or flow in Vue Single File Com
 ```
 
 Personally I prefer `"style": "module"`, you'll need to install `import-sort-style-module`.
+
+# Result
+The extra line above the first import is unavoidable because of the design of [import-sort](https://github.com/renke/import-sort)
+```
+<template>
+  <div class="container">
+  </div>
+</template>
+
+<script lang="ts">
+
+import Vue from "vue";
+
+export default Vue.extend({
+});
+</script>
+
+<style lang="scss">
+@import "@/assets/mixins";
+
+.container {
+}
+</style>
+
+```
