@@ -5,6 +5,7 @@ const core_1 = require("@babel/core");
 const types_1 = require("@babel/types");
 const path_1 = require("path");
 const traverse_1 = require("@babel/traverse");
+const vueParser = require("vue-parser");
 // TODO: Mocha currently doesn't pick up the declaration in index.d.ts
 // eslint-disable-next-line
 const findLineColumn = require("find-line-column");
@@ -51,6 +52,11 @@ const TYPESCRIPT_PARSER_OPTIONS = {
     plugins: TYPESCRIPT_PARSER_PLUGINS,
 };
 function parseImports(code, options = {}) {
+    var _a;
+    const scriptNode = vueParser.getNode(code, "script");
+    const isVueTs = ((_a = vueParser.getNode(code, "script")) === null || _a === void 0 ? void 0 : _a.attrs["lang"]) === "ts";
+    if (scriptNode)
+        code = vueParser.parse(code, "script");
     const babelPartialOptions = core_1.loadPartialConfig({
         filename: options.file,
     });
@@ -61,7 +67,7 @@ function parseImports(code, options = {}) {
     }
     else {
         const { file } = options;
-        const isTypeScript = file && TYPESCRIPT_EXTENSIONS.includes(path_1.extname(file));
+        const isTypeScript = (file && TYPESCRIPT_EXTENSIONS.includes(path_1.extname(file))) || isVueTs;
         const parserOptions = isTypeScript
             ? TYPESCRIPT_PARSER_OPTIONS
             : FLOW_PARSER_OPTIONS;
@@ -143,7 +149,6 @@ function parseImports(code, options = {}) {
 }
 exports.parseImports = parseImports;
 function formatImport(code, imported, eol = "\n") {
-    console.error(code);
     const importStart = imported.importStart || imported.start;
     const importEnd = imported.importEnd || imported.end;
     const importCode = code.substring(importStart, importEnd);

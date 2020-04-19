@@ -76,10 +76,10 @@ export function parseImports(
   code: string,
   options: IParserOptions = {}
 ): IImport[] {
-  if (code.includes("<script") && code.includes("</script>"))
-    code = vueParser.parse(code, "script", {
-      lang: ["js", "jsx", "ts", "tsx"],
-    });
+  const scriptNode = vueParser.getNode(code, "script");
+  const isVueTs = vueParser.getNode(code, "script")?.attrs["lang"] === "ts";
+
+  if (scriptNode) code = vueParser.parse(code, "script");
 
   const babelPartialOptions = babelLoadPartialOptions({
     filename: options.file,
@@ -94,8 +94,7 @@ export function parseImports(
     const { file } = options;
 
     const isTypeScript =
-      (file && TYPESCRIPT_EXTENSIONS.includes(extname(file))) ||
-      code.includes('lang="ts"');
+      (file && TYPESCRIPT_EXTENSIONS.includes(extname(file))) || isVueTs;
 
     const parserOptions = isTypeScript
       ? TYPESCRIPT_PARSER_OPTIONS
