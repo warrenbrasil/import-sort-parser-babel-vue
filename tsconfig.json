@@ -1,0 +1,22 @@
+{
+  "compileOnSave": false,
+
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "strictNullChecks": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "types": ["node"],
+    "lib": ["es2017"],
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+
+  "include": ["src"]
+}
