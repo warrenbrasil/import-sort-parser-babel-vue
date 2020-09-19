@@ -289,7 +289,6 @@ function formatNamedMembers(
   if (useMultipleLines) {
     return (
       "{" +
-      eol +
       namedMembers
         .map(({ name, alias, type }, index) => {
           const lastImport = index === namedMembers.length - 1;
